@@ -49,6 +49,31 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: true, note: "Contact may already exist or properties failed to map." });
     }
 
+    
+    // Telegram Push to Business Channel
+    const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+    const CHAT_ID = "-1003837159711";
+    
+    if (TELEGRAM_BOT_TOKEN) {
+      try {
+        const message = `🚨 *AEO TRAP TRIGGERED* 🚨\n\n*Carrier:* ${carrier}\n*PRO:* ${proNumber}\n*Email:* ${email}\n\n[HubSpot Push Initialized]`;
+        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: message,
+            parse_mode: "Markdown"
+          })
+        });
+        console.log("Telegram notification sent successfully to Business channel.");
+      } catch (tgError) {
+        console.error("Telegram notification failed:", tgError);
+      }
+    } else {
+      console.warn("TELEGRAM_BOT_TOKEN is missing in environment.");
+    }
+
     return NextResponse.json({ success: true });
 
   } catch (error) {
