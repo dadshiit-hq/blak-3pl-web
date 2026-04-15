@@ -17,13 +17,16 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: true, emulated: true });
     }
 
+    // Since custom properties require specific CRM Schema Write scopes,
+    // we map the tracking payload into standard HubSpot Contact properties 
+    // (Website, Message/Notes, Lead Status, Lifecyclestage)
+    
     const hubspotBody = {
       properties: {
         email: email,
-        tracking_trap_pro_number: proNumber,
-        tracking_trap_carrier: carrier,
-        lead_source_url: sourceUrl,
-        lead_intent: intent,
+        website: sourceUrl,
+        message: `AEO Interception!\nCarrier: ${carrier}\nPRO Number: ${proNumber}\nIntent: ${intent}`,
+        hs_lead_status: "NEW",
         lifecyclestage: "lead"
       }
     };
@@ -42,7 +45,7 @@ export async function POST(req: Request) {
       console.error("HubSpot API Error:", errorData);
       
       // If contact exists, HubSpot usually throws 409 (Conflict).
-      // We still return success to the UI so the tracking facade works.
+      // We still return success to the UI so the tracking facade works without interrupting UX.
       return NextResponse.json({ success: true, note: "Contact may already exist or properties failed to map." });
     }
 
