@@ -58,6 +58,9 @@ export default function Navigation() {
               )}
             </div>
 
+            <Link href="/intel" className="text-[#A3A3A3] hover:text-[#FFFFFF] text-sm font-bold uppercase tracking-wider transition-colors">
+              Intel
+            </Link>
             <Link href="/about" className="text-[#A3A3A3] hover:text-[#FFFFFF] text-sm font-bold uppercase tracking-wider transition-colors">
               The Blak Standard
             </Link>
