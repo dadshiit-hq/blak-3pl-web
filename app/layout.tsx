@@ -1,6 +1,27 @@
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
+
+export const viewport: Viewport = {
+  themeColor: '#0A0A0A',
+};
+
+export const metadata: Metadata = {
+  title: 'Blak 3PL | Premium Freight Logistics & Transportation',
+  description: 'Nationwide FTL, LTL, and White-Glove Logistics designed for builders and businesses that need execution, not excuses.',
+  openGraph: {
+    title: 'Blak 3PL | Premium Freight Logistics',
+    description: 'Nationwide FTL, LTL, and White-Glove Logistics designed for builders and businesses that need execution, not excuses.',
+    images: [{ url: 'https://assets-dadshiit.vercel.app/assets/banner.png' }],
+    url: 'https://blak-3pl-web.vercel.app',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  }
+};
 
 export default function RootLayout({
   children,
